@@ -2,7 +2,7 @@
 <div class="container">
   <div class="row">
     {% for post in post_list %}
-    <div class="col-4">
+    <div class="col-4" style="padding: 10px;">
       <div class="card" style="width: 18rem">
         <img src="{{post.thumbnail.url}}" class="card-img-top" alt="..." />
         <div class="card-body">
@@ -12,7 +12,7 @@
           <p>
             <span>
               <i class="bi bi-eye ml-2"></i>
-              {{post.get_comment_count}}
+              {{post.get_view_count}}
             </span>
             <span>
               <i class="bi bi-hand-thumbs-up-fill ml-2"></i>
@@ -20,7 +20,7 @@
             </span>
             <span>
               <i class="bi bi-chat-right-quote ml-2"></i>
-              {{post.get_view_count}}
+              {{post.get_comment_count}}
             </span>
             <p class="card-text">Posted {{post.publish_date|timesince}} ago</p>
           </p>

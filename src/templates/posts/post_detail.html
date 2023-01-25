@@ -1,6 +1,66 @@
 {% extends 'base.html' %} {% block content %}
-<div class="container">
-  <h4>Me quedé por el minuto 3:57</h4>
-  {{post.title}}
+{% load crispy_forms_tags %}
+<div class="row">
+  <div class="col-4 offset-4">
+    <div class="card" style="padding: 10px">
+      <h1>{{post.title}}</h1>
+      <img src="{{post.thumbnail.url}}" class="card-img-top" alt="..." />
+      <hr />
+      <div>
+        <span>
+          <i class="bi bi-eye ml-2"></i>
+          {{post.get_view_count}}
+        </span>
+        <span>
+          <i class="bi bi-hand-thumbs-up-fill ml-2"></i>
+          {{post.get_like_count}}
+        </span>
+        <span>
+          <i class="bi bi-chat-right-quote ml-2"></i>
+          {{post.get_comment_count}}
+        </span>
+        <p class="card-text">Posted {{post.publish_date|timesince}} ago</p>
+      </div>
+      <hr />
+      <div style="padding: 10px">
+        <p>{{post.content}}</p>
+      </div>
+      <hr />
+      <div>
+        <h4>Enjoy this post?</h4>
+        <a
+          class="text-muted"
+          style="text-decoration: none"
+          href="{{post.get_like_url}}"
+        >
+          <i class="bi bi-hand-thumbs-up-fill"></i>
+          {{post.get_like_count}}
+        </a>
+        <hr />
+        {% if request.user.is_authenticated %}
+        <h4>Leave a comment below</h4>
+        <form method="POST">
+          {% csrf_token %} {{form|crispy}}
+          <button class="btn btn-primary" style="margin-top: 5px;">Comment</button>
+        </form>
+        <hr />
+        <h5>Comments</h5>
+        {% for comment in post.comments %}
+        <div>
+          <p>
+            {{comment.content}}
+            <br />
+            <small>{{comment.timestamp|timesince}} ago</small>
+          </p>
+        </div>
+        <hr />
+        {% endfor %} {% else %}
+        <a class="btn btn-primary btn-block" href="{% url 'account_login' %}">
+          Login to comment
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock content %}
