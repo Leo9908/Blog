@@ -1,10 +1,36 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container">
-  <h4>Post List</h4>
-  <ul>
+  <div class="row">
     {% for post in post_list %}
-    <li>{{post.title}}</li>
+    <div class="col-4">
+      <div class="card" style="width: 18rem">
+        <img src="{{post.thumbnail.url}}" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <h5 class="card-title">{{post.title}}</h5>
+          <p class="card-text">{{post.content|truncatechars:50}}</p>
+          <hr />
+          <p>
+            <span>
+              <i class="bi bi-eye ml-2"></i>
+              {{post.get_comment_count}}
+            </span>
+            <span>
+              <i class="bi bi-hand-thumbs-up-fill ml-2"></i>
+              {{post.get_like_count}}
+            </span>
+            <span>
+              <i class="bi bi-chat-right-quote ml-2"></i>
+              {{post.get_view_count}}
+            </span>
+            <p class="card-text">Posted {{post.publish_date|timesince}} ago</p>
+          </p>
+          <a href="{{post.get_absolute_url}}" class="btn btn-primary"
+            >Details</a
+          >
+        </div>
+      </div>
+    </div>
     {% endfor %}
-  </ul>
+  </div>
 </div>
 {% endblock content %}
